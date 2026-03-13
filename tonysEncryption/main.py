@@ -1,6 +1,20 @@
 import math
 
 
+
+
+def cipher(word, key):
+    newWord = ""
+
+    #TODO
+
+    return newWord
+
+
+
+
+
+
 def toAscii(baseString):
     convertedValues = []
     for char in baseString:
@@ -10,14 +24,14 @@ def toAscii(baseString):
 def addRandomVal(asciiArr, val):
     convertedValues = []
     for num in asciiArr:
-        convertedValues.append(num + val)
+        convertedValues.append((num + val) % 127)
     return convertedValues
 
 
 def bitShift(asciiArr, shiftAmt):
     convertedValues = []
     for val in asciiArr:
-        convertedValues.append(math.ceil(val / (shiftAmt *  2)))
+        convertedValues.append(val << shiftAmt)
     return convertedValues
 
 def toBinary(asciiArr):
@@ -29,7 +43,7 @@ def toBinary(asciiArr):
 
 def toBase64(vals):
     vals = toBinary(vals)
-    b64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    b64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
     
     binaryString = ""
     for binary in vals:
@@ -39,86 +53,57 @@ def toBase64(vals):
     for i in range(0, len(binaryString), 6):
         groupedVals.append(binaryString[i:i+6])
         
+    last_index = len(groupedVals) - 1
+    while len(groupedVals[last_index]) < 6:
+        groupedVals[last_index] += "0"
+
+    print(str(groupedVals))
     base64String = ""
     for group in groupedVals:
-        decimal_val = int(group, 2)
-        base64String += b64_chars[decimal_val]
-        
+        foo = 0
+        if(group[0] == "1"):
+            foo += 32
+        if(group[1] == "1"):
+            foo += 16 
+        if(group[2] == "1"):
+            foo += 8
+        if(group[3] == "1"):
+            foo += 4
+        if(group[4] == "1"):
+            foo += 2
+        if(group[5] == "1"):
+            foo += 1
+        base64String += b64Chars[foo]
     return base64String
 
-    
 
-def encrypt(word):
-    randomVal = 32
+
+def encrypt(word, randomVal):
+
     asciiVals = toAscii(word)
     pulseRandomVal = addRandomVal(asciiVals, randomVal)
     shiftedBinary = (bitShift(pulseRandomVal, 1)) 
     base64 = toBase64(shiftedBinary)
 
 
-    # print("starting string: " + word)
-    # print("ascii:   " + str(toBinary(asciiVals)))
-    # print("added:   " + str(toBinary(pulseRandomVal)))
-    # print("shifted: " + str(toBinary(shiftedBinary)))
-    # print("base 64: " + str(base64))
+    print("starting string: " + word)
+    print("ascii:   " + str(asciiVals))
+    print("added:   " + str(pulseRandomVal))
+    print("shifted: " + str(shiftedBinary))
+    print("base 64: " + str(base64))
     return base64
 
 
 def main():
     inputWord = "Hello World!"
-    encryptedWord = encrypt(inputWord)
+    randomVal = -62054932734650
+    
+    encryptedWord = encrypt(inputWord, randomVal)
+    print()
     print("starting string:  " + inputWord)
     print("encrypted string: " + encryptedWord)
 
-
 main()
 
-
-
-
-
-
-def checkForDuplicatesInWordList():
-    dictionaryOfWords = {}
-    with open("bigListOfWords.txt") as myFile:
-        for eachWord in myFile:
-            if eachWord in dictionaryOfWords:
-                # already in the dictionary?
-                dictionaryOfWords[eachWord] += 1
-                # print("OOPS " + eachWord + " is already in the dictionaryOfWords", end =" / ")
-                # return
-            else:
-                # add to dictionaryOfHashes and set it to 1 appearance
-                dictionaryOfWords[eachWord] = 1
-    # print("no duplicates")
-    with open("words.txt", "w") as f:
-        for key in dictionaryOfWords:
-            f.write(key)
-
-
-
-# param functionName - the function that will be tested for collisions
-# for example, checkForCollisions(rileySuperSecretEncrypt01)
-def checkForCollisions(functionName):
-    hasCollisions = False
-    dictionaryOfHashes = {}
-    with open("bigListOfWords.txt") as myFile:
-        for eachWord in myFile:
-            # get each encrypted version
-            encryptedWord = functionName(eachWord.strip("\n"))
-            if encryptedWord in dictionaryOfHashes:
-                # already in the dictionary?
-                dictionaryOfHashes[encryptedWord] += 1
-                print("OOPS " + encryptedWord + " is already in the dictionaryOfHashes", end =" / ")
-                hasCollisions = True
-            else:
-                # add to dictionaryOfHashes and set it to 1 appearance
-                dictionaryOfHashes[encryptedWord] = 1
-    if hasCollisions:
-        #print(dictionaryOfHashes)
-        print("\nFAIL: we have collisions")
-    else:
-        print("\nSUCCESS: no collisions")
-                
 
 

@@ -95,8 +95,8 @@ def encrypt(word, randomVal):
 
 
 def main():
-    inputWord = "Hello World!"
-    randomVal = -62054932734650
+    inputWord = "hello"
+    randomVal = 1324657869764524231
     
     encryptedWord = encrypt(inputWord, randomVal)
     print()

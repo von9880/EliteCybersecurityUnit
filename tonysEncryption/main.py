@@ -2,7 +2,7 @@ from decrypt import encryptString, decryptString
 
 def main():
     inputWord = "Hello World!"
-    randomVal = 1324657869764524231
+    randomVal = 98154164
     
     encryptedWord = encryptString(inputWord, randomVal)
     decryptedWord = decryptString(encryptedWord, randomVal)

@@ -1,5 +1,7 @@
-superSecretWord = "kryptos KRYPTOS"
+import random
 
+
+superSecretWord = "kryptos KRYPTOS"
 
 
 #the key cant have any duplicate chars
@@ -24,21 +26,72 @@ def makeTable(ShiftingWord):
 
 
 
+def encryptWithTable(string, key):
 
-def encryptWithTable(word, key):
+    while(len(string) > len(key)):
+        key += key
+        if(len(string) < len(key)):
+            key = key[0:len(string)]
+
+       
     table = makeTable(superSecretWord)
+    #printTable(table)
+    newString = ""
+
+    for i in range(0, len(string)):
+
+        col = table[0].index(string[i])
+
+        for j in range(0, len(table)):
+
+            row = 0
+            if(table[j][0] == key[i]):
+                row = j
+                break
+
+        newString += table[row][col]
+    
+    return newString
+
     
 
+def decryptWithTable(string, key):
+
+    while(len(string) > len(key)):
+        key += key
+        if(len(string) < len(key)):
+            key = key[0:len(string)]
+
+       
+    table = makeTable(superSecretWord)
+    convertedString = ""
+
+    for i in range(len(string)):
+
+        row = 0
+        for j in range(len(table)):
+            if table[j][0] == key[i]:
+                row = j
+                break
+        
+
+        col = table[row].index(string[i])
+        convertedString += table[0][col]
 
 
+    return convertedString
 
 
-
-
-
-
-
-
+def generateKey(length):
+    charters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ '
+    
+    key = ""
+    
+    for i in range(length):
+        randIndex = random.randint(0, len(charters) - 1)
+        key += charters[randIndex]
+    
+    return key
 
 
 
@@ -55,5 +108,6 @@ def printTable(table):
     print("-------------------------------\n")
 
 
-foo = makeTable("kryptos KRYPTOS")
-printTable(foo)
+
+#to make an uniqe key every time i run this file becuse im lazy
+print(generateKey(15))

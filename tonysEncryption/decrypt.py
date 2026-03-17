@@ -1,4 +1,4 @@
-from tonysEncryption.encrypt import *
+from encrypt import *
 
 
 

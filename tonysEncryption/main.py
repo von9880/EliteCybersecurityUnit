@@ -22,10 +22,20 @@ def main():
     decryptedWord = decryptWithTable(encryptedWord, superSecretKey)
 
     print()
-    print("------ENCRYPTING WITH VIGENERE TABLE------")
+    print("------ENCODING WITH VIGENERE TABLE------")
     print()
     print("encrypted string: " + encryptedWord)
     print("decrypted string: " + decryptedWord)
+
+
+    #hashing
+    encryptedWord = hash(inputWord)
+
+    print()
+    print("------HASHING------")
+    print()
+    print("encrypted string: " + str(encryptedWord))
+
 
 
 main()

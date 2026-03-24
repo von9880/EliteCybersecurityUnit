@@ -1,4 +1,4 @@
-from encrypt import *
+from decrypt import *
 import math
 
 def rasePower(ascciArr, exponent):
@@ -11,12 +11,16 @@ def rasePower(ascciArr, exponent):
 def modulus(arr, val):
     convertedValues = []
     for num in arr:
-        convertedValues.append(num % val)
+        convertedValues.append(int(num % val))
 
     return convertedValues
 
-def hash(word):
+def hashWord(word):
     convertedWord = toAscii(word)
-    convertedWord = rasePower(convertedWord, 999)
-    convertedWord = modulus(convertedWord, 364)
-    return convertedWord
+    convertedWord = rasePower(convertedWord, 99)
+    convertedWord = modulus(convertedWord, 127)
+    finalWord = ""
+    for val in convertedWord:
+        finalWord += str(val)
+    return finalWord
+

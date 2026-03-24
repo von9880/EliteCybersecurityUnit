@@ -1,4 +1,4 @@
-from decrypt import encryptString, decryptString
+from hash import encryptString, decryptString, hashWord
 from vigenereTable import encryptWithTable, decryptWithTable
 
 def main():
@@ -29,7 +29,7 @@ def main():
 
 
     #hashing
-    encryptedWord = hash(inputWord)
+    encryptedWord = hashWord(inputWord)
 
     print()
     print("------HASHING------")

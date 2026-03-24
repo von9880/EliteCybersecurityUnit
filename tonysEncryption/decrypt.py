@@ -1,4 +1,4 @@
-from hash import *
+from encrypt import *
 
 
 
